@@ -1,4 +1,4 @@
-  class Calculation {
+class Calculation {
     constructor(a, b, op) {
       this.a = a;
       this.b = b;

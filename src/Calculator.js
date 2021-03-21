@@ -6,7 +6,7 @@ const Quotient = require('./Operations/Quotient');
 const Power = require('./Operations/Power');
 const Root = require('./Operations/Root');
 
-class Calculator extends Calculation{
+class Calculator{
     static Calculations = [];
     static addCalculation(calculation){
         Calculator.Calculations.push(calculation);
