@@ -10,8 +10,5 @@ class Calculation {
     GetResults() {
       return this.op(this.a,this.b)
     }
-    static Sum(a,b) {
-      return a+b;
-    }
 }
 module.exports = Calculation;
