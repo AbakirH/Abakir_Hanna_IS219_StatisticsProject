@@ -58,6 +58,6 @@ test('Calculating Standard Deviation from a list', () => {
     let values = [1,2,3,4,5,9];
     let Stat = new Statistics();
     let standardDeviation = Stat.StandardDeviation(values);
-    expect(standardDeviation.GetResults()).toBeCloseTo(2.82, 1);;
+    expect(standardDeviation.GetResults()).toBeCloseTo(2.82, 1);
 });
 
