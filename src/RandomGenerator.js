@@ -1,8 +1,6 @@
 const randSeed = require('random-seed');
 
 class RandomGenerator {
-    static randomListOfNums = [];
-    constructor() {}
     RandomIntgerNumber(value1, value2){
         return Math.floor(Math.random() * (value2 - value1) + value1);
     }
@@ -54,13 +52,12 @@ class RandomGenerator {
         }
         return randomListOfNums;
     }
-    SortList(values) {
-        values.sort(function(a,b){
-            return a-b;
-          });
-        return values;
-    }
-    
+    // SortList(values) {
+    //     values.sort(function(a,b){
+    //         return a-b;
+    //       });
+    //     return values;
+    // }
 }
 
 module.exports = RandomGenerator;
