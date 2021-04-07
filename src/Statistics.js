@@ -18,17 +18,15 @@ class Statistics extends Calculator {
     }
 
     Variance(values) {
-        let squareOfSums =  Calculator.Quotient(Calculator.Square(this.Sum(values)).GetResults(),values.length).GetResults();
-        for(let i = 0; i < values.length; i++){
-            values[i] = Calculator.Square(values[i]).GetResults();
+        let mean = this.Mean(values).GetResults();
+        let total = 0;
+        for (let i = 0; i < values.length; i++){
+            total += Math.pow((values[i] - mean),2);
         }
-        let sumsOfSquares = this.Sum(values);
-        let variance = Calculator.Quotient(Calculator.Difference(sumsOfSquares, squareOfSums).GetResults(), values.length-1);
-        return variance;
+        return total / (values.length-1);
     }
     StandardDeviation(values) {
-        return Calculator.SquareRoot(this.Variance(values).GetResults());
-        
+        return Calculator.SquareRoot(this.Variance(values));
     }
     Mean(values) {
         let numValues = values.length;
@@ -66,27 +64,26 @@ class Statistics extends Calculator {
         let list1 = [];
         let list2 = [];
         this.SortList(list);
-        let len = list.length;
-        if (len % 2 === 0) {
-            list1 = list.slice(0, len/2);
-            list2 = list.slice(len/2, len);
+        let length = list.length;
+        if (length % 2 === 0) {
+            list1 = list.slice(0, length/2);
+            list2 = list.slice(length/2, length);
         } else {
-            list1 = list.slice(0, (len-1)/2);
-            list2 = list.slice((len-1)/2+1, len);
+            list1 = list.slice(0, (length-1)/2);
+            list2 = list.slice((length-1)/2+1, length);
         }
-        return [this.Median(list1), this.Median(list2)];
+        return [this.Median(list1), this.Median(list), this.Median(list2)];
     }
     Skewness(list){
         let total = 0;
         for (let i = 0; i < list.length; i++){
-            total += (list[i] - this.Mean(list)) *
-                        (list[i] - this.Mean(list)) *
-                        (list[i] - this.Mean(list));
+            total += (list[i] - this.Mean(list).GetResults()) *
+                        (list[i] - this.Mean(list).GetResults()) *
+                        (list[i] - this.Mean(list).GetResults());
         }
-
-        return total / (list.length * this.StandardDeviation(list) *
-            this.StandardDeviation(list) *
-            this.StandardDeviation(list));
+        return (total / ((list.length-1) * this.StandardDeviation(list).GetResults() *
+            this.StandardDeviation(list).GetResults() *
+            this.StandardDeviation(list).GetResults()));
     }
     PopulationOrSampleCorrelationCoefficient(list1, list2) {
         if(list1.length !== list2.length){
@@ -112,14 +109,14 @@ class Statistics extends Calculator {
                 sumY * sumY)));
     }
     Zscore(list){
-        let list2 = [];
+        let ZScorelist = [];
         for (let i = 0; i < list.length; i++) {
-            list2.push((list[i]-Statistics.Mean(list))/Statistics.StandardDeviation(list));
+            ZScorelist.push((list[i]-this.Mean(list).GetResults())/this.StandardDeviation(list).GetResults());
         }
-        return list2;
+        return ZScorelist;
     }
     MeanDeviation(list){
-        let mean = this.Mean(list);
+        let mean = this.Mean(list).GetResults();
         let total = 0;
         for (let i = 0; i < list.length; i++){
             total += Math.abs(list[i] - mean);
