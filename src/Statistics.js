@@ -30,7 +30,6 @@ class Statistics extends Calculator {
         return Calculator.SquareRoot(this.Variance(values).GetResults());
         
     }
-
     Mean(values) {
         let numValues = values.length;
         return Calculator.Quotient(this.Sum(values),numValues);
@@ -62,6 +61,70 @@ class Statistics extends Calculator {
             }
         }
         return listOfValues;
+    }
+    Quartiles(list){
+        let list1 = [];
+        let list2 = [];
+        this.SortList(list);
+        let len = list.length;
+        if (len % 2 === 0) {
+            list1 = list.slice(0, len/2);
+            list2 = list.slice(len/2, len);
+        } else {
+            list1 = list.slice(0, (len-1)/2);
+            list2 = list.slice((len-1)/2+1, len);
+        }
+        return [this.Median(list1), this.Median(list2)];
+    }
+    Skewness(list){
+        let total = 0;
+        for (let i = 0; i < list.length; i++){
+            total += (list[i] - this.Mean(list)) *
+                        (list[i] - this.Mean(list)) *
+                        (list[i] - this.Mean(list));
+        }
+
+        return total / (list.length * this.StandardDeviation(list) *
+            this.StandardDeviation(list) *
+            this.StandardDeviation(list));
+    }
+    PopulationOrSampleCorrelationCoefficient(list1, list2) {
+        if(list1.length !== list2.length){
+            return false;
+        }
+        let sumX = 0, sumY = 0, sumXY = 0;
+        let squareSumX = 0, squareSumY = 0;
+
+        for (let i = 0;i < list1.length;i++){
+            sumX = sumX + list1[i];
+
+            sumY = sumY + list2[i];
+
+            sumXY = sumXY + list1[i] * list2[i];
+
+            squareSumX = squareSumX + list1[i] * list1[i];
+            squareSumY = squareSumY + list2[i] * list2[i];
+        }
+
+        return (list1.length * sumXY - sumX * sumY) /
+            (Math.sqrt((list1.length * squareSumX -
+                sumX * sumX) * (list1.length * squareSumY -
+                sumY * sumY)));
+    }
+    Zscore(list){
+        let list2 = [];
+        for (let i = 0; i < list.length; i++) {
+            list2.push((list[i]-Statistics.Mean(list))/Statistics.StandardDeviation(list));
+        }
+        return list2;
+    }
+    MeanDeviation(list){
+        let mean = this.Mean(list);
+        let total = 0;
+        for (let i = 0; i < list.length; i++){
+            total += Math.abs(list[i] - mean);
+        }
+        return total / list.length;
     }
 
 }
