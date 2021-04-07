@@ -52,12 +52,6 @@ class RandomGenerator {
         }
         return randomListOfNums;
     }
-    // SortList(values) {
-    //     values.sort(function(a,b){
-    //         return a-b;
-    //       });
-    //     return values;
-    // }
 }
 
 module.exports = RandomGenerator;
